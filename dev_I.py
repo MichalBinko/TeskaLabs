@@ -1,13 +1,15 @@
 import json
+import asyncio
+import aiofiles
 
-def load_json(path):
-    with open(path, "r") as f:
-        raw = f.read()
+async def load_json(path):
+    async with aiofiles.open(path, "r") as f:
+        raw = await f.read()
     return json.loads(raw)
 
 def parse(raw_data):
     for x in raw_data:
-        print(x)   
+        print('XXX',x)   
 
 
 
@@ -17,10 +19,13 @@ def write_to_file(raw_data):
 
 
 
-def main():
-    raw_data = load_json("sample-data.json")
+async def main():
+    raw_data = await load_json("sample-data.json")
     parse(raw_data)
     write_to_file(raw_data)
 
+if __name__ == "__main__":
+    asyncio.run(main())
 
-main()
+
+#main()

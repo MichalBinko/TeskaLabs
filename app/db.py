@@ -44,7 +44,7 @@ async def init_db(conn):
     )
 
 
-async def insert_containers(conn,containers):
+async def insert_containers(conn, containers):
     if not containers:
         return
 

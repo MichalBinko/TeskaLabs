@@ -18,14 +18,6 @@ async def get_connection():
         host=DB_HOST,
         port=DB_PORT,
     )
-"""
-            "name" : x.get("name"),
-            "cpu_usage": cpu.get("usage"),
-            "memory_usage":memory.get("usage"),
-            "created_at": to_utc(x.get("created_at")),
-            "status": x.get("status"),
-            "ip_addresses": ips,
-"""
 
 
 async def init_db(conn):

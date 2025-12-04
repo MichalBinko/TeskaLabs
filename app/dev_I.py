@@ -44,8 +44,8 @@ def parse(raw_data):
         ips = []
         state = x.get("state")
         if state is not None:
-            cpu = state.get("cpu")
-            memory = state.get("memory")
+            cpu = state.get("cpu") or {}
+            memory = state.get("memory") or {}
             network = state.get("network")
             find_ips(network, ips)
         else:

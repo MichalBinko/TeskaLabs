@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: lxc-postgres
+    environment:
+      POSTGRES_USER: ${APP_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${APP_DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${APP_DB_NAME:-lxc_db}
+    
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${APP_DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: lxc-importer
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    volumes:
+      - ./sample-data.json:/data/sample-data.json:ro
+      - ./out:/data                      
+    command: ["python", "-m", "app.dev_I"]
+    restart: "on-failure"
+
+volumes:
+  pgdata:
+
